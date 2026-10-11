@@ -87,15 +87,15 @@ The two commercials are spec concepts made for a job application to DJBM Buildin
 English:
 
 > Hello, I am Md. Hasibul Hasan, a software engineer now working on product content and video. I make AI video with Google Gemini and motion graphics with Python and FFmpeg, and I am learning timeline editing.
-> Showreel (30 seconds): SITE_URL/#showreel
-> Full portfolio: SITE_URL
+> Showreel (30 seconds): https://hasib-video-portfolio.vercel.app/#showreel
+> Full portfolio: https://hasib-video-portfolio.vercel.app
 > I would be glad to talk about your project. Thank you.
 
 Bangla:
 
 > হ্যালো, আমি Md. Hasibul Hasan। আমি একজন Software Engineer, এখন product content আর video নিয়ে কাজ করছি। আমি Google Gemini দিয়ে AI video এবং Python ও FFmpeg দিয়ে motion graphics বানাই, আর timeline editing শিখছি।
-> শো-রিল (৩০ সেকেন্ড): SITE_URL/#showreel
-> সম্পূর্ণ পোর্টফোলিও: SITE_URL
+> শো-রিল (৩০ সেকেন্ড): https://hasib-video-portfolio.vercel.app/#showreel
+> সম্পূর্ণ পোর্টফোলিও: https://hasib-video-portfolio.vercel.app
 > আপনার প্রজেক্ট নিয়ে কথা বলতে পারলে খুশি হব। ধন্যবাদ।
 
-Replace `SITE_URL` with the live address.
+Live site: https://hasib-video-portfolio.vercel.app
