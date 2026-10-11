@@ -1,0 +1,155 @@
+/* Layout idea: the page is an editing timeline. The showreel sits on top with its cut list under it;
+   each category of work is a track (V1, V2 ...) in its own clip colour, like labels in an editor. */
+:root {
+  color-scheme: dark;
+  --ink: #0a0d12;
+  --panel: #11161e;
+  --panel-2: #171e29;
+  --line: #242d3b;
+  --text: #e8ecf2;
+  --muted: #909cb1;
+  --rec: #ff4d3d;
+  --display: "Archivo", "Arial Narrow", Arial, sans-serif;
+  --body: "Instrument Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --wrap: 1180px;
+  --gutter: clamp(16px, 4vw, 40px);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+body { margin: 0; background: var(--ink); color: var(--text); font-family: var(--body); font-size: 17px; line-height: 1.55; }
+img, video { max-width: 100%; display: block; }
+a { color: inherit; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--rec); outline-offset: 3px; }
+.mono { font-family: var(--mono); font-size: 13px; letter-spacing: 0.03em; color: var(--muted); font-variant-numeric: tabular-nums; }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--rec); display: inline-block; flex: none; }
+.skip { position: absolute; left: -999px; top: 8px; background: var(--text); color: var(--ink); padding: 8px 12px; z-index: 30; }
+.skip:focus { left: 8px; }
+
+/* top bar */
+.top { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap;
+       padding: 14px var(--gutter); background: color-mix(in srgb, var(--ink) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--display); font-stretch: 112%; font-weight: 700; }
+.top nav { display: flex; flex-wrap: wrap; gap: 4px 20px; font-size: 15px; }
+.top nav a { text-decoration: none; color: var(--muted); padding: 4px 0; }
+.top nav a:hover { color: var(--text); }
+
+main { max-width: var(--wrap); margin: 0 auto; padding-inline: var(--gutter); }
+section { padding-block: clamp(44px, 7vw, 84px) 0; }
+
+/* hero + showreel */
+.hero { padding-top: clamp(32px, 6vw, 64px); display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+.eyebrow { margin: 0; display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+h1 { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 800; text-transform: uppercase;
+     font-size: clamp(2.3rem, 7.6vw, 5.6rem); line-height: 0.95; letter-spacing: -0.02em; text-wrap: balance; }
+.role { margin: 0; font-family: var(--display); font-stretch: 110%; font-weight: 600; color: var(--rec); font-size: clamp(1rem, 2.2vw, 1.3rem); }
+.lede { margin: 0; max-width: 64ch; color: var(--text); font-size: 1.08rem; }
+.reel { margin-top: 14px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+.reel video { width: 100%; aspect-ratio: 16 / 9; background: #000; border: 1px solid var(--line); border-radius: 6px; }
+.tl { position: relative; padding-top: 14px;
+      background: repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 3.333%) top / 100% 8px no-repeat; }
+.tl-bar { display: flex; gap: 2px; height: 34px; }
+.tl-clip { flex: 1 1 0; min-width: 0; border: 0; padding: 0 8px; border-radius: 3px; cursor: pointer; text-align: left;
+           background: color-mix(in srgb, var(--c, var(--muted)) 34%, var(--panel)); color: var(--text);
+           font-family: var(--mono); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+           border-top: 3px solid var(--c, var(--muted)); }
+.tl-clip:hover, .tl-clip.on { background: color-mix(in srgb, var(--c, var(--muted)) 62%, var(--panel)); }
+.tl-head { position: absolute; top: 4px; bottom: -4px; left: 0; width: 2px; background: var(--rec); pointer-events: none; }
+.tl-head::before { content: ""; position: absolute; top: -4px; left: -5px; border: 6px solid transparent; border-top-color: var(--rec); }
+.tl-meta { display: flex; justify-content: space-between; gap: 12px; font-size: 15px; }
+.reel-note { margin: 0; color: var(--muted); font-size: 0.95rem; max-width: 70ch; }
+
+/* section heads */
+.sec-head { display: grid; gap: 6px; margin-bottom: 26px; padding-top: 18px; border-top: 2px solid var(--text); }
+h2 { margin: 0; font-family: var(--display); font-stretch: 118%; font-weight: 800; text-transform: uppercase; font-size: clamp(1.4rem, 3.4vw, 2.1rem); letter-spacing: -0.01em; text-wrap: balance; }
+.sec-head p { margin: 0; color: var(--muted); max-width: 64ch; }
+
+/* tracks */
+.track { --h: 300px; display: grid; gap: 14px; padding: 18px 0 26px; border-top: 1px solid var(--line); }
+.track:first-child { border-top: 0; padding-top: 0; }
+.track-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
+.tag { font-family: var(--mono); font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: 3px; color: var(--ink); background: var(--c); }
+.track-head h3 { margin: 0; font-family: var(--display); font-stretch: 112%; font-weight: 700; font-size: 1.25rem; }
+.track-head p { margin: 0; color: var(--muted); font-size: 0.95rem; flex-basis: 100%; }
+.clips { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-start; }
+.clip { width: min(100%, calc(var(--h) * var(--ar))); background: none; border: 0; padding: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; display: grid; gap: 8px; }
+.clip .thumb { position: relative; aspect-ratio: var(--ar); width: 100%; overflow: hidden; border-radius: 5px; background: var(--panel); border: 1px solid var(--line); border-bottom: 3px solid var(--c); }
+.clip .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s ease; }
+.clip:hover .thumb img { transform: scale(1.04); }
+.clip .play { position: absolute; left: 10px; bottom: 10px; display: inline-flex; align-items: center; gap: 7px; padding: 5px 10px 5px 8px; border-radius: 999px;
+              background: rgba(10, 13, 18, 0.78); font-family: var(--mono); font-size: 12px; }
+.clip .play::before { content: ""; border: 5px solid transparent; border-left: 8px solid var(--text); border-right: 0; }
+.clip b { font-family: var(--display); font-stretch: 108%; font-weight: 700; font-size: 1rem; line-height: 1.25; }
+.clip .meta { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; }
+.badge { font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; padding: 2px 7px; border: 1px solid var(--line); border-radius: 3px; color: var(--muted); white-space: nowrap; }
+.empty { border: 1px dashed var(--line); border-radius: 5px; padding: 22px; color: var(--muted); font-size: 0.95rem; max-width: 46ch; }
+
+/* before / after */
+.ba-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 28px; }
+.ba { display: grid; gap: 10px; min-width: 0; }
+.ba h3 { margin: 0; font-family: var(--display); font-stretch: 110%; font-size: 1.1rem; }
+.ba p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+.cmp { position: relative; overflow: hidden; border-radius: 5px; border: 1px solid var(--line); background: #000; --pos: 50; }
+.cmp > img, .cmp > video { width: 100%; display: block; }
+.cmp .after { position: absolute; inset: 0; height: 100%; object-fit: cover; clip-path: inset(0 0 0 calc(var(--pos) * 1%)); }
+.cmp .line { position: absolute; top: 0; bottom: 0; left: calc(var(--pos) * 1%); width: 2px; background: var(--text); pointer-events: none; }
+.cmp .lab { position: absolute; top: 10px; font-family: var(--mono); font-size: 11px; text-transform: uppercase; background: rgba(10, 13, 18, 0.78); padding: 3px 8px; border-radius: 3px; pointer-events: none; }
+.cmp .lab.l { left: 10px; } .cmp .lab.r { right: 10px; }
+.cmp input[type="range"] { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
+.ba-audio { display: grid; gap: 8px; padding: 14px; border: 1px solid var(--line); border-radius: 5px; background: var(--panel); }
+.ba-audio audio { width: 100%; }
+
+/* about */
+.about { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 32px; align-items: start; }
+.about img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; object-position: 50% 12%; border-radius: 6px; background: #fff; }
+.about-text { display: grid; gap: 12px; max-width: 66ch; }
+.about-text p { margin: 0; }
+.levels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 32px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); }
+.levels div { padding: 20px 22px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.levels div + div { border-left: 1px solid var(--line); }
+.levels strong { font-family: var(--display); font-stretch: 110%; font-size: 1.06rem; }
+.levels p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+.levels .mono { text-transform: uppercase; color: var(--rec); }
+.tools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.tools span { font-family: var(--mono); font-size: 13px; padding: 5px 11px; border: 1px solid var(--line); border-radius: 4px; background: var(--panel); }
+.projects { margin-top: 30px; }
+.projects a { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr) auto; gap: 6px 26px; align-items: baseline; padding-block: 14px; border-top: 1px solid var(--line); text-decoration: none; }
+.projects a:hover b { color: var(--rec); }
+.projects b { font-family: var(--display); font-stretch: 108%; }
+.projects span { color: var(--muted); font-size: 0.96rem; min-width: 0; }
+
+/* contact */
+.contact { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 12px; }
+.contact a { display: grid; gap: 3px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); text-decoration: none; min-width: 0; }
+.contact a:hover { border-color: var(--rec); }
+.contact a span:last-child { overflow-wrap: anywhere; }
+
+.foot { max-width: var(--wrap); margin: 72px auto 0; padding: 20px var(--gutter) 36px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; color: var(--muted); font-size: 0.95rem; }
+
+/* player dialog */
+dialog { width: min(1040px, 94vw); max-height: 94vh; padding: 0; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--text); overflow: auto; }
+dialog::backdrop { background: rgba(4, 6, 9, 0.86); }
+.close { position: sticky; top: 0; float: right; z-index: 2; margin: 10px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--ink); color: var(--text); font: 13px var(--mono); cursor: pointer; }
+.player-media { background: #000; display: grid; place-items: center; clear: both; }
+.player-media video, .player-media iframe { width: 100%; max-height: 72vh; aspect-ratio: var(--ar, 16 / 9); border: 0; }
+.player-media.tall video { width: auto; height: 72vh; max-width: 100%; }
+.player-info { padding: 18px 22px 24px; display: grid; gap: 10px; }
+.player-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.player-info h3 { margin: 0; font-family: var(--display); font-stretch: 112%; font-size: 1.3rem; }
+.player-info p { margin: 0; max-width: 72ch; }
+.made { border-left: 3px solid var(--rec); padding-left: 14px; color: var(--muted); font-size: 0.95rem; }
+
+@media (max-width: 760px) {
+  .track { --h: 240px; }
+  .about { grid-template-columns: minmax(0, 1fr); }
+  .about img { max-width: 180px; }
+  .levels { grid-template-columns: minmax(0, 1fr); }
+  .levels div + div { border-left: 0; border-top: 1px solid var(--line); }
+  .projects a { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .tl-clip { padding: 0 3px; font-size: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .clip .thumb img { transition: none; }
+}
